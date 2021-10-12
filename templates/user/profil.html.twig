@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil utilisateur - Pokemonde{% endblock %}
+
+{% block body %}
+    <section class="py-5">
+        <div class="container px-5">
+            {% if session.none_user %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{ session.none_user }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endif %}
+            {% if session.modification_ok %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session.modification_ok }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% else %}
+                {% if session.user %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        Vous êtes connecté ! Bienvenu sur votre page de profil.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endif %}
+            {% endif %}
+            <div class="row gx-5 justify-content-center">
+                <div class="col-6 text-center">
+                    <h1 class="fw-bolder">Mes informations</h1>
+                    <p class="lead fw-normal text-muted mb-0">Nom: <strong>{{ session.user.lastname }}</strong></p>
+                    <p class="lead fw-normal text-muted mb-0">Prénom: <strong>{{ session.user.firstname }}</strong></p>
+                    <p class="lead fw-normal text-muted mb-0">Email: <strong>{{ session.user.email }}</strong></p>
+                    <p class="lead fw-normal text-muted mb-0">Tel: <strong>{{ session.user.tel }}</strong></p>
+                    <p class="lead fw-normal text-muted mb-0">Adresse: <strong>{{ session.user.address }}</strong></p>
+                    <p class="lead fw-normal text-muted mb-0">Code postal: <strong>{{ session.user.zipcode }}</strong></p>
+                    <br/>
+                    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                        <a href="editer-profil?id={{ session.user.id }}" type="button" title="Éditer mon profil" class="btn btn-success">Éditer</a>
+                        <a href="supprimer-profil?id={{ session.user.id }}" type="button" title="Supprimer" class="btn btn-danger">Supprimer</a>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <img class="img-fluid rounded-3 mb-5" src="assets/images/robo500x500.jpg" alt="..." />
+                </div>
+            </div>
+            <hr />
+        </div>
+    </section>
+{% endblock %}

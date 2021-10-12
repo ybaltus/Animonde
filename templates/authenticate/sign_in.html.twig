@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion - Animonde{% endblock %}
+
+{% block body %}
+    <section class="py-5">
+        <div class="container px-5">
+            {% if session.inscription %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session.inscription }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endif %}
+            {% if session.user %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    Vous êtes connecté !
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endif %}
+            {% if session.none_user %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{ session.none_user }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endif %}
+            <div class="bg-light rounded-3 py-5 px-4 px-md-5 mb-5">
+                <div class="text-center mb-5">
+                    <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-person-square"></i></div>
+                    <h1 class="fw-bolder">Se connecter</h1>
+                    <p class="lead fw-normal text-muted mb-0">Renseigner vos identifiants.</p>
+                </div>
+                <div class="row gx-5 justify-content-center">
+                    <div class="col-lg-8 col-xl-6">
+                        <form id="siginForm" action="connexion" method="POST">
+                            <!-- Email address input-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="email" type="email" name="email" placeholder="name@example.com" data-sb-validations="required,email" />
+                                <label for="email">Email</label>
+                                <div class="invalid-feedback" data-sb-feedback="email:required">L'email est obligatoire.</div>
+                                <div class="invalid-feedback" data-sb-feedback="email:email">L'email n'est pas valide.</div>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="password" type="password" name="password" placeholder="Entrer votre mot de passe..." data-sb-validations="required" />
+                                <label for="name">Mot de passe</label>
+                                <div class="invalid-feedback" data-sb-feedback="password:required">Le mot de passe est obligatoire.</div>
+                            </div>
+                            <!-- Submit Button-->
+                            <div class="d-grid"><button class="btn btn-primary btn-lg " id="signinSubmit" type="submit" title="Se connecter">Se connecter</button></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

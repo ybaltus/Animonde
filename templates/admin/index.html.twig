@@ -1,0 +1,111 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Administration - Animonde
+{% endblock %}
+
+{% block body %}
+	<header class="bg-dark py-5">
+		<div class="container px-5">
+			<div class="row gx-5 align-items-center justify-content-center">
+				<div class="col-lg-8 align-items-center col-xl-7 col-xxl-6 text-center">
+					<h1 class="fw-bolder text-white text-left">Administration
+					</h1>
+				</div>
+				<div class="col-xl-5 col-xxl-6 d-none d-xl-block text-center"><img class="img-fluid rounded-3 my-5" src="assets/images/birds.jpg" alt="Les animaux"/></div>
+			</div>
+		</div>
+	</header>
+	<section class="py-5">
+		{% if session.addUser %}
+			<div class="alert alert-success alert-dismissible fade show" role="alert">
+				{{ session.addUser }}
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+		{% endif %}
+		{% if session.addAnimal %}
+			<div class="alert alert-success alert-dismissible fade show" role="alert">
+				{{ session.addAnimal }}
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+		{% endif %}
+		{% if session.editAnimal %}
+			<div class="alert alert-success alert-dismissible fade show" role="alert">
+				{{ session.editAnimal }}
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+		{% endif %}
+		<!-- Gérer les animaux -->
+	<div class="container px-5 my-5">
+		<div class="row gx-5 justify-content-center">
+			<h1>Gérer les animaux</h1>
+			<a class="btn btn-primary col-2 mb-2 " href="/ajouter-un-animal" title="Ajouter un animal">Ajouter un animal</a>
+			<table class="table">
+				<thead class="thead-dark">
+				<tr>
+					<th scope="col">Nom</th>
+					<th scope="col">Race</th>
+					<th scope="col">Disponible ?</th>
+					<th scope="col">Actions</th>
+				</tr>
+				</thead>
+				<tbody>
+				{% for animal in animals %}
+					<tr>
+						<td>{{ animal.name|capitalize }}</td>
+						<td>{{ races[animal.race_id].name|capitalize }}</td>
+						<td>{{ animal.available == 1? 'Oui': 'Non'}}</td>
+						<td>
+							<a class="btn btn-info" href="/editer-un-animal?id={{ animal.id }}" title="Éditer un animal">Éditer</a>
+							<a class="btn btn-danger" href="/supprimer-un-animal?id={{ animal.id }}" title="Supprimer un animal">Supprimer</a>
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td>
+							Il n'y a pas d'animaux.
+						</td>
+					</tr>
+				{% endfor %}
+			</table>
+		</div>
+	</div>
+		<!-- Gérer les utilisateurs -->
+		<div class="container px-5 my-5">
+			<div class="row gx-5 justify-content-center">
+				<h1>Gérer les utilisateurs</h1>
+				<a class="btn btn-primary col-2 mb-2 " href="/ajouter-un-utilisateur" title="Ajouter un utilisateur">Ajouter un utilisateur</a>
+				<table class="table">
+					<thead class="thead-dark">
+					<tr>
+						<th scope="col">Nom</th>
+						<th scope="col">Prénom</th>
+						<th scope="col">Email</th>
+						<th scope="col">Role</th>
+						<th scope="col">Actions</th>
+					</tr>
+					</thead>
+					<tbody>
+					{% for user in users %}
+						<tr>
+							<td>{{ user.last_name|capitalize }}</td>
+							<td>{{ user.first_name|capitalize }}</td>
+							<td>{{ user.email|capitalize }}</td>
+							<td>{{ user.role }}</td>
+							<td>
+								<a class="btn btn-info" href="/editer-un-utilisateur?id={{ user.id }}" title="Éditer un utilisateur">Éditer</a>
+								<a class="btn btn-danger" href="/supprimer-un-utilisateur?id={{ user.id }}" title="Supprimer un utilisateur">Supprimer</a>
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td>
+								Il n'y a pas d'utilisateur.
+							</td>
+						</tr>
+					{% endfor %}
+				</table>
+			</div>
+		</div>
+	</section>
+{% endblock %}

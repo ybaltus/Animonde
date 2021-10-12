@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Éditer un animal - Animal{% endblock %}
+
+{% block body %}
+    <section class="py-5">
+        {% if session.animal_exist %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                {{ session.animal_exist }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endif %}
+        <div class="container px-5">
+            <!-- Contact form-->
+            <div class="bg-light rounded-3 py-5 px-4 px-md-5 mb-5">
+                <div class="text-center mb-5">
+                    <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-cloud-plus"></i></div>
+                    <h1 class="fw-bolder">Éditer un animal</h1>
+                </div>
+                <div class="row gx-5 justify-content-center">
+                    <div class="col-lg-8 col-xl-6">
+                        <form id="editAnimalForm" action="/editer-un-animal?id={{ animal.id }}" method="post">
+                            <!-- Name input-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="name" name="name" type="text" placeholder="Nom de l'animal" data-sb-validations="required" value="{{ animal.name }}" />
+                                <label for="name">Nom</label>
+                            </div>
+                            <!-- Poids (kg) de l'animal-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="weight" type="number" name="weight" step="0.01" placeholder="Poids de l'animal" data-sb-validations="required" value="{{ animal.weight }}" />
+                                <label for="weight">Poids (kg)</label>
+                            </div>
+                            <!-- Taille (kg) de l'animal-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="size" type="number" name="size" step="0.01" placeholder="Taille de l'animal" data-sb-validations="required" value="{{ animal.size }}" />
+                                <label for="size">Taille (cm)</label>
+                            </div>
+                            <!-- Race de l'animal -->
+                            <div class="form-floating mb-3">
+                                <select class="form-control" name="race" required value="{{ animal.race_id }}">
+                                    {% for race in races %}
+                                        <option value="{{ race.id }}">{{ race.name }} </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <!-- Disponniblité de l'animal -->
+                            <div class="form-floating mb-3">
+                                <select class="form-control" name="available" required value="{{ animal.available }}" >
+                                    <option value="1">Disponible</option>
+                                    <option value="2">Non disponible</option>
+                                </select>
+                            </div>
+                            <!-- Submit success message-->
+                            <!---->
+                            <!-- This is what your users will see when the form-->
+                            <!-- has successfully submitted-->
+                            <div class="d-none" id="submitSuccessMessage">
+                                <div class="text-center mb-3">
+                                    <div class="fw-bolder">Form submission successful!</div>
+                                    To activate this form, sign up at
+                                    <br />
+                                    <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
+                                </div>
+                            </div>
+                            <!-- Submit error message-->
+                            <!---->
+                            <!-- This is what your users will see when there is-->
+                            <!-- an error submitting the form-->
+                            <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
+                            <!-- Submit Button-->
+                            <div class="d-grid">
+                                <button class="btn btn-primary btn-lg" id="submitButton" type="submit" title="Ajouter">Éditer</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

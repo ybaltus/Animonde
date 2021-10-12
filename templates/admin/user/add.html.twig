@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un utilisateur - Animonde{% endblock %}
+
+{% block body %}
+    <section class="py-5">
+        <div class="container px-5">
+            {% if session.Suppression_ok %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session.Suppression_ok }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endif %}
+            <div class="bg-light rounded-3 py-5 px-4 px-md-5 mb-5">
+                <div class="text-center mb-5">
+                    <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-person-plus-fill"></i></div>
+                    <h1 class="fw-bolder">Ajouter un utilisateur</h1>
+                    <p class="lead fw-normal text-muted mb-0">Compléter les informations </p>
+                </div>
+                <div class="row gx-5 justify-content-center">
+                    <div class="col-lg-8 col-xl-6">
+                        <form id="siginForm" action="/ajouter-un-utilisateur" method="POST">
+                            <!-- Name input-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="last_name" type="text" name="lastName" placeholder="Entrer votre nom..." data-sb-validations="required" value="doe" />
+                                <label for="last_name">Nom</label>
+                                <div class="invalid-feedback" data-sb-feedback="last_name:required">Le nom est obligatoire.</div>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="first_name" type="text" name="firstName" placeholder="Entrer votre prénom..." data-sb-validations="required" value="john" />
+                                <label for="first_name">Prénom</label>
+                                <div class="invalid-feedback" data-sb-feedback="first_name:required">Le prénom est obligatoire.</div>
+                            </div>
+                            <!-- Email address input-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="email" type="email" name="email" placeholder="name@example.com" data-sb-validations="required,email" value="john@doe.fr" />
+                                <label for="email">Email</label>
+                                <div class="invalid-feedback" data-sb-feedback="email:required">L'email est obligatoire.</div>
+                                <div class="invalid-feedback" data-sb-feedback="email:email">L'email n'est pas valide.</div>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="password" type="password" name="password" placeholder="Entrer votre mot de passe..." data-sb-validations="required" value="1234" />
+                                <label for="name">Mot de passe</label>
+                                <div class="invalid-feedback" data-sb-feedback="password:required">Le mot de passe est obligatoire.</div>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="address" type="text" name="address" placeholder="Entrer votre adresse..." data-sb-validations="required" value="adqdsd" />
+                                <label for="lastname">Adresse</label>
+                                <div class="invalid-feedback" data-sb-feedback="address:required">L'adresse est obligatoire.</div>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="zipCode" type="text" name="zipCode" placeholder="Entrer votre code postal..." data-sb-validations="required" value="sqdsqds" />
+                                <label for="zip_code">Code postal</label>
+                                <div class="invalid-feedback" data-sb-feedback="zip_code:required">Le code postal est obligatoire.</div>
+                            </div>
+                            <!-- Phone number input-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="tel" type="tel" name="tel" placeholder="(+33) 6 66 66 66 66" data-sb-validations="required" value="sqdsqdsq" />
+                                <label for="tel">Téléphone</label>
+                                <div class="invalid-feedback" data-sb-feedback="tel:required">Le numéro de téléphone est obligatoire.</div>
+                            </div>
+                            <!-- Race de l'animal -->
+                            <div class="form-floating mb-3">
+                                <select class="form-control" name="role" required>
+                                        <option value="ROLE_ADMIN">Administrateur </option>
+                                        <option value="ROLE_USER">Utilisateur </option>
+                                </select>
+                            </div>
+                            <!-- Submit success message-->
+                            <!---->
+                            <!-- This is what your users will see when the form-->
+                            <!-- has successfully submitted-->
+                            <div class="d-none" id="submitSuccessMessage">
+                                <div class="text-center mb-3">
+                                    <div class="fw-bolder">Compte crée avec succès!</div>
+                                    To activate this form, sign up at
+                                    <br />
+                                    <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
+                                </div>
+                            </div>
+                            <!-- Submit error message-->
+                            <!---->
+                            <!-- This is what your users will see when there is-->
+                            <!-- an error submitting the form-->
+                            <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
+                            <!-- Submit Button-->
+                            <div class="d-grid"><button class="btn btn-primary btn-lg " id="signupSubmit" type="submit" title="Créer">Créer</button></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

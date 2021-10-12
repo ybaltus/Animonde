@@ -1,0 +1,24 @@
+<!-- Navigation-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container px-5">
+        <a class="navbar-brand" href="/" title="Animonde">Animonde</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="/" title="Accueil">Accueil</a></li>
+                <li class="nav-item"><a class="nav-link" href="/animaux", title="Les animaux">Les animaux</a></li>
+                {% if not session.user %}
+                    <li class="nav-item"><a class="nav-link" title="Se connecter"  href="/connexion" title="Se connecter">Se connecter</a></li>
+                    <li class="nav-item"><a class="nav-link" title="S'inscrire" href="/inscription" title="S'inscrire">S'inscrire</a></li>
+                {% else %}
+                {% set roleUser = session.user.role %}
+                    <li class="nav-item"><a class="nav-link" title="Mon compte" href="/profil" title="Mon compte">Mon compte</a></li>
+                    <li class="nav-item"><a class="nav-link" title="Déconnexion" href="/deconnexion" title="Se déconnecter">Se déconnecter</a></li>
+                    {% if roleUser == "ROLE_ADMIN" %}
+                        <li class="nav-item"><a class="nav-link"href="/admin" title="Administration">Administration</a></li>
+                    {% endif %}
+                {% endif%}
+            </ul>
+        </div>
+    </div>
+</nav>
