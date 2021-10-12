@@ -36,6 +36,11 @@ Exécuter la commande: php bin/initialize_database.php
 Exécuter la commande: php bin/initialize_admin.php
 login: admin@doe.fr, password: 1234
 ```
+#### 3- Installer les packages composer et l'autoload
+```
+Exécuter la commande: composer install ou composer update
+Exécuter la commande: composer dump-autoload
+```
 #### 3- Lancer le serveur php
 ```
 Exécuter la commande: php -S localhost:8000 -t public
