@@ -2,7 +2,6 @@
 
 use App\Controller\AdminController;
 use App\Controller\AuthenticateController;
-use App\Controller\ContactController;
 use App\Controller\HomeController;
 use App\Controller\AnimalController;
 use App\Controller\UserController;

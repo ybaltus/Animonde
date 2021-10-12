@@ -7,6 +7,7 @@ use App\Manager\UserManager;
 use App\Utils\ControllerHandler;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\User;
+use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
 
 class AuthenticateController
@@ -23,6 +24,7 @@ class AuthenticateController
     /**
      * Page de connexion
      */
+    #[Route('/connexion', name: 'connexion')]
     public function signIn(Request $request, Environment $template): void
     {
         // Si l'utilisateur est déjà connecté, on redirige vers la page profil
@@ -72,6 +74,7 @@ class AuthenticateController
     /**
      * Page d'inscription
      */
+    #[Route('/inscription', name: 'inscription')]
     public function signUp (Request $request, Environment $template): void {
         // Supprimer la variable none_user de la session
         $this->controllerHandler?->unsetSessionVariable('none_user');
@@ -104,6 +107,7 @@ class AuthenticateController
     /**
      * Se déconnecter
      */
+    #[Route('/deconnexion', name: 'deconnexion')]
     public function signOut(Request $request, Environment$template): void {
         // Supprimer la variable user dans la session
         $this->controllerHandler->unsetSessionVariable('user');

@@ -11,6 +11,7 @@ use App\Manager\UserManager;
 use App\Utils\ControllerHandler;
 use Cocur\Slugify\Slugify;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
 
 class AdminController
@@ -35,6 +36,7 @@ class AdminController
     /**
      * Accueil administration
      */
+    #[Route('/admin', name: 'admin')]
     public function index(Request $request, Environment $template): void {
         // Si l'utilisateur n'est pas connecté on redirige vers la page de connexion
         $this->controllerHandler?->redirectToRouteIsNotIsset('user', 'connexion');
@@ -79,6 +81,7 @@ class AdminController
     /**
      * Ajouter un animal
      */
+    #[Route('/ajouter-un-animal', name: 'addAnimal')]
     public function addAnimal(Request $request, Environment$template): void{
         // Si le formulaire est soumis
         if ($request->isMethod('POST')) {
@@ -120,6 +123,7 @@ class AdminController
     /**
      * Éditer un animal
      */
+    #[Route('/editer-un-animal/{id}', name: 'editAnimal')]
     public function editAnimal(Request $request, Environment $template): void{
         // Supprimer la variable animal_exist de la session
         $this->controllerHandler?->unsetSessionVariable('animal_exist');
@@ -167,6 +171,7 @@ class AdminController
     /**
      * Supprimer un animal
      */
+    #[Route('/supprimer-un-animal/{id}', name: 'supprimerAnimal')]
     public function deleteAnimal(Request $request): void{
         // Récupérer l'id de l'animal
         $id =$request->query->get('id');
@@ -183,6 +188,7 @@ class AdminController
     /**
      * Ajouter un utilisateur
      */
+    #[Route('/ajouter-un-utilisateur', name: 'addUser')]
     public function addUser (Request $request, Environment $template): void {
         // Si l'utilisateur n'est pas connecté
         $this->controllerHandler?->redirectToRouteIsNotIsset('user', 'connexion');
@@ -221,6 +227,7 @@ class AdminController
     /**
      * Éditer un utilisateur
      */
+    #[Route('/editer-un-utilisateur/{id}', name: 'editUser')]
     public function editUser(Request $request, Environment $template): void {
         // Récupérer l'id de l'utilisateur
         $id = $request->query->get('id');
@@ -258,6 +265,7 @@ class AdminController
     /**
      * Supprimer un utilisateur
      */
+    #[Route('/supprimer-un-utilisateur/{id}', name: 'deleteUser')]
     public function deleteUser(Request $request){
         $id =$request->query->get('id');
         if ($id){

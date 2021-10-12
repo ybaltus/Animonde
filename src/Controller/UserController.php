@@ -8,6 +8,8 @@ use App\Entity\User;
 use App\Manager\UserManager;
 use App\Utils\ControllerHandler;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+use Twig\Environment;
 
 class UserController
 {
@@ -22,11 +24,10 @@ class UserController
 
     /**
      * Page de profil d'un utilisateur
-     *
-     * @param Request $request
-     * @param $template
      */
-    public function profil(Request $request, $template) {
+    #[Route('/profil', name: 'profil')]
+    public function profil(Request $request, Environment $template): void
+    {
         // Si l'utilisateur n'est pas connecté on redirige vers la page de connexion
         $this->controllerHandler?->redirectToRouteIsNotIsset('user', 'connexion');
 
@@ -39,12 +40,10 @@ class UserController
 
     /**
      * Éditer un profil utilisateur
-     *
-     * @param Request $request
-     * @param $template
      */
-    public function edit(Request $request, $template) {
-
+    #[Route('/editer-profil/{id}', name: 'editerProfil')]
+    public function edit(Request $request, Environment $template): void
+    {
         // Si l'utilisateur n'est pas connecté on redirige vers la page de connexion
         $this->controllerHandler?->redirectToRouteIsNotIsset('user', 'connexion');
 
@@ -89,11 +88,10 @@ class UserController
 
     /**
      * Supprimer un compte
-     *
-     * @param Request $request
-     * @param $template
      */
-    public function delete(Request $request, $template) {
+    #[Route('/supprimer-profil/{id}', name: 'supprimerProfil')]
+    public function delete(Request $request, Environment $template): void
+    {
         $id = $request->query->get('id');
         if($id){
             $userManager = new UserManager();

@@ -9,6 +9,7 @@ use App\Manager\AnimalRaceManager;
 use App\Utils\ControllerHandler;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Animal;
+use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
 use Vendor\database\Manager;
 
@@ -27,7 +28,9 @@ class AnimalController
     /**
      * Page de la liste des animaux
      */
-    public function index (Request $request, Environment$template) {
+    #[Route('/animaux', name: 'animals')]
+    public function index (Request $request, Environment$template): void
+    {
         $manager = new AnimalManager();
         $animals = $manager->findAllAvailable();
         echo $template->render('animal/index.html.twig', [
@@ -38,7 +41,9 @@ class AnimalController
     /**
      * Page d'un animal
      */
-    public function show(Request $request, Environment $template) {
+    #[Route('/voir-un-animal/{id}', name: 'showAnimal')]
+    public function show(Request $request, Environment $template): void
+    {
         $id =$request->query->get('id');
 
         // S'il n'y a pas d'id on redirige vers la liste des animaux
