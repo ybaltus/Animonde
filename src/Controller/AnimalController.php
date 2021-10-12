@@ -5,9 +5,8 @@ use App\Entity\Contact;
 use App\Entity\User;
 use App\Manager\AnimalManager;
 use App\Manager\ContactManager;
-use App\Manager\PokemonTypeManager;
 use App\Manager\AnimalRaceManager;
-use App\Manager\PokemonRarityManager;
+use App\Utils\ControllerHandler;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Animal;
 use Twig\Environment;
@@ -16,11 +15,21 @@ use Vendor\database\Manager;
 class AnimalController
 {
     /**
+     * ControllerHandler
+     */
+    private ControllerHandler $controllerHandler;
+
+    public function __construct() {
+        $this->controllerHandler = new ControllerHandler();
+    }
+
+
+    /**
      * Page de la liste des animaux
      */
     public function index (Request $request, Environment$template) {
         $manager = new AnimalManager();
-        $animals = $manager->findAll();
+        $animals = $manager->findAllAvailable();
         echo $template->render('animal/index.html.twig', [
             'animals' => $animals
         ]);
@@ -37,16 +46,8 @@ class AnimalController
             // Redirection vers la liste des animaux
             header("Location:/animaux");
         }
-
-        if(!isset($_SESSION['user'])){
-            // Redirection vers la liste des animaux
-            header("Location:/animaux");
-        }
-
-        if(isset($_SESSION['contact_ok'])){
-            // On supprime la variable session
-            unset($_SESSION['contact_ok']);
-        }
+        // On supprime la variable session ocntact_ok
+        $this->controllerHandler->unsetSessionVariable('contact_ok');
 
         $manager = new AnimalManager();
         $animal = $manager->findOne($id);

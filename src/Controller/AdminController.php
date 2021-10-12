@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Manager\AnimalManager;
 use App\Manager\AnimalRaceManager;
 use App\Manager\UserManager;
+use App\Utils\ControllerHandler;
 use Cocur\Slugify\Slugify;
 use Symfony\Component\HttpFoundation\Request;
 use Twig\Environment;
@@ -23,24 +24,20 @@ class AdminController
     ];
 
     /**
+     * ControllerHandler
+     */
+    private ControllerHandler $controllerHandler;
+
+    public function __construct() {
+        $this->controllerHandler = new ControllerHandler();
+    }
+
+    /**
      * Accueil administration
      */
     public function index(Request $request, Environment $template): void {
-        // Supprimer la variable addAnimal de la session
-        if(isset($_SESSION['addAnimal'])){
-            unset($_SESSION['addAnimal']);
-        }
-
-        // Supprimer la variable editAnimal de la session
-        if(isset($_SESSION['editAnimal'])){
-            unset($_SESSION['editAnimal']);
-        }
-
-        // Si l'utilisateur n'est pas connecté
-        if(!isset($_SESSION['user'])){
-            // Redirection vers la page de profil
-            header("Location:/connexion");
-        }
+        // Si l'utilisateur n'est pas connecté on redirige vers la page de connexion
+        $this->controllerHandler?->redirectToRouteIsNotIsset('user', 'connexion');
 
         // Si l'utilisateur n'est pas un administrateur
         if(isset($_SESSION['user']) && $_SESSION['user']['role'] !== 'ROLE_ADMIN'){
@@ -48,22 +45,26 @@ class AdminController
             header("Location:/connexion");
         }
 
-        // Supprimer la variable inscription de la session
-        if(isset($_SESSION['addUser'])){
-            unset($_SESSION['addUser']);
-        }
+        // Supprimer la variable addAnimal de la session
+        $this->controllerHandler?->unsetSessionVariable('addAnimal');
 
-        // Animals
+        // Supprimer la variable editAnimal de la session
+        $this->controllerHandler?->unsetSessionVariable('editAnimal');
+
+        // Supprimer la variable inscription de la session
+        $this->controllerHandler?->unsetSessionVariable('addUser');
+
+        // Récupérer les animaux
         $animalManager = new AnimalManager();
-        $animals = $animalManager->findAllAvailable();
-        // Races
+        $animals = $animalManager->findAll();
+        // Récupérer les races
         $raceManager = new AnimalRaceManager();
         $racesEntities = $raceManager->findAll();
         $races = [];
         foreach ($racesEntities as $race) {
             $races[$race->getId()] = $race;
         }
-        // Users
+        // Récupérer les utilisateurs
         $userManager = new UserManager();
         $users = $userManager->findAll();
 
@@ -86,6 +87,7 @@ class AdminController
             $manager = new AnimalManager();
             $slugger = new Slugify();
 
+            // Vérifier si l'animal existe
             $checkAnimal = $manager->findOneBySlug($slugger->slugify($datas['name']));
 
             if(!$checkAnimal) {
@@ -106,6 +108,7 @@ class AdminController
             }
         }
 
+        // Récupérer les races
         $managerRace = new AnimalRaceManager();
         $races = $managerRace->findAll();
 
@@ -118,6 +121,9 @@ class AdminController
      * Éditer un animal
      */
     public function editAnimal(Request $request, Environment $template): void{
+        // Supprimer la variable animal_exist de la session
+        $this->controllerHandler?->unsetSessionVariable('animal_exist');
+
         // Récupérer l'id de l'animal
         $id = $request->query->get('id');
 
@@ -127,6 +133,7 @@ class AdminController
             header("Location:/admin");
         }
 
+        // Récupérer l'animal
         $manager = new AnimalManager();
         $animal = $manager->findOne($id);
 
@@ -138,7 +145,8 @@ class AdminController
 
         // Si le formulaire est soumis
         if ($request->isMethod('POST')) {
-            $animal->hydrate($request->request->all());
+            $datas = $request->request->all();
+            $animal->hydrate($datas);
             $manager->edit($animal);
             $_SESSION['editAnimal'] = "L'animal ". $animal->getName()." a bien été édité!";
 
@@ -146,6 +154,7 @@ class AdminController
             header("Location:/admin");
         }
 
+        // Récupérer les races
         $managerRace = new AnimalRaceManager();
         $races = $managerRace->findAll();
 
@@ -158,8 +167,10 @@ class AdminController
     /**
      * Supprimer un animal
      */
-    public function deleteAnimal(Request $request){
+    public function deleteAnimal(Request $request): void{
+        // Récupérer l'id de l'animal
         $id =$request->query->get('id');
+
         if ($id){
             $manager = new AnimalManager();
             $manager->delete($id);
@@ -174,10 +185,7 @@ class AdminController
      */
     public function addUser (Request $request, Environment $template): void {
         // Si l'utilisateur n'est pas connecté
-        if(!isset($_SESSION['user'])){
-            // Redirection vers la page de profil
-            header("Location:/connexion");
-        }
+        $this->controllerHandler?->redirectToRouteIsNotIsset('user', 'connexion');
 
         // Si l'utilisateur n'est pas un administrateur
         if(isset($_SESSION['user']) && $_SESSION['user']['role'] !== 'ROLE_ADMIN'){
@@ -186,21 +194,17 @@ class AdminController
         }
 
         // Supprimer la variable none_user de la session
-        if(isset($_SESSION['none_user'])){
-            unset($_SESSION['none_user']);
-        }
+        $this->controllerHandler?->unsetSessionVariable('none_user');
 
         // Supprimer la variable suppression de la session
-        if(isset($_SESSION['Suppression_ok'])){
-            unset($_SESSION['Suppression_ok']);
-        }
+        $this->controllerHandler?->unsetSessionVariable('Suppression_ok');
 
         // Si le formulaire est soumis
         if ($request->isMethod('POST')) {
             $user = new User();
             $manager = new UserManager();
-            $user->hydrate($request->request->all());
-            $manager->add($user);
+            $user?->hydrate($request->request->all());
+            $manager?->add($user);
 
             // Message de création
             $_SESSION['addUser'] = "Le compte à été créé avec succès !";
@@ -217,7 +221,7 @@ class AdminController
     /**
      * Éditer un utilisateur
      */
-    public function editUser(Request $request, Environment $template): void{
+    public function editUser(Request $request, Environment $template): void {
         // Récupérer l'id de l'utilisateur
         $id = $request->query->get('id');
 

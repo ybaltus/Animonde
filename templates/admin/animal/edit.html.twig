@@ -45,9 +45,9 @@
                             </div>
                             <!-- Disponniblité de l'animal -->
                             <div class="form-floating mb-3">
-                                <select class="form-control" name="available" required value="{{ animal.available }}" >
-                                    <option value="1">Disponible</option>
-                                    <option value="2">Non disponible</option>
+                                <select class="form-control" name="available" required>
+                                    <option value="1" {% if animal.available == 1 %}selected="selected"{% endif %}>Disponible</option>
+                                    <option value="2" {% if animal.available == 0 %}selected="selected"{% endif %}>Non disponible</option>
                                 </select>
                             </div>
                             <!-- Submit success message-->

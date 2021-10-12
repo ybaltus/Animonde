@@ -15,7 +15,7 @@ class HomeController
     public function index(Request $request, Environment $template)
     {
         $manager = new AnimalManager();
-        $animals = $manager->findLastTen();
+        $animals = $manager?->findLastTen();
         echo $template->render('home/index.html.twig', [
             'animals' => $animals
         ]);

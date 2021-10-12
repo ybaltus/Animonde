@@ -9,31 +9,27 @@ namespace App\Manager;
 interface ManagerInterface {
     /**
      * Récupérer une entité à partir d'un attribut unique d'une entité
-     * @return mixed
      */
-    public function findOne($entity);
+    public function findOne(mixed $entity);
 
     /**
      * Récupérer toutes les entrées d'une entité
-     * @return mixed
      */
     public function findAll();
 
     /**
      * Ajouter une nouvelle entité
      */
-    public function add($entity);
+    public function add(mixed $entity);
 
     /**
-     * Éditer une entité à partir de son id ou de son nameSlug
-     * @return mixed
+     * Éditer une entité à partir d'un paramètre
      */
-    public function edit($entity);
+    public function edit(mixed $entity);
 
     /**
-     * Supprimer une entité à partir de son id ou de son nameSlug
-     * @return mixed
+     * Supprimer une entité à partir d'un paramètre
      */
-    public function delete($entity);
+    public function delete(mixed $entity);
 
 }

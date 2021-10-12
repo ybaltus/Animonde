@@ -14,7 +14,7 @@ class AnimalRaceManager extends Manager implements ManagerInterface {
     /**
      * Récupérer une race d'animal grâce à son id
      */
-    public function findOne($entity): mixed
+    public function findOne(mixed$entity): AnimalRace|bool
     {
         $statement = "SELECT * FROM $this->table WHERE id = :id LIMIT 1";
         $prepare = $this->db->prepare($statement);
@@ -26,7 +26,7 @@ class AnimalRaceManager extends Manager implements ManagerInterface {
     /**
      * Récupérer une race par son slug
      */
-    public function findOneBySlug(string $nameSlug): mixed
+    public function findOneBySlug(string $nameSlug): AnimalRace|bool
     {
         $statement = "SELECT * FROM $this->table WHERE nameSlug = :nameSlug LIMIT 1";
         $prepare = $this->db->prepare($statement);
@@ -39,7 +39,7 @@ class AnimalRaceManager extends Manager implements ManagerInterface {
     /**
      * Récupérer toutes les races
      */
-    public function findAll()
+    public function findAll(): array
     {
         $query = $this->db->query("SELECT * FROM $this->table");
         return $query->fetchAll(\PDO::FETCH_CLASS, AnimalRace::class);
@@ -48,7 +48,7 @@ class AnimalRaceManager extends Manager implements ManagerInterface {
     /**
      * Ajoute une race de pokemon
      */
-    public function add($entity): void
+    public function add(mixed $entity): void
     {
         $statement = "INSERT INTO $this->table (name, nameslug) 
                         VALUES (:name, :nameslug)";
@@ -62,7 +62,7 @@ class AnimalRaceManager extends Manager implements ManagerInterface {
     /**
      * Modifier une race
      */
-    public  function edit($entity): void
+    public  function edit(mixed $entity): void
     {$statement = "UPDATE $this->table 
                     SET name = :name 
                     nameslug = :nameslug 
@@ -78,7 +78,7 @@ class AnimalRaceManager extends Manager implements ManagerInterface {
     /**
      * Supprimer une race
      */
-    public function delete($entity): void
+    public function delete(mixed $entity): void
     {
         $statement = "DELETE FROM $this->table WHERE id = :id";
         $prepare = $this->db->prepare($statement);

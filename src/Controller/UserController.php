@@ -6,10 +6,20 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Manager\UserManager;
+use App\Utils\ControllerHandler;
 use Symfony\Component\HttpFoundation\Request;
 
 class UserController
 {
+    /**
+     * ControllerHandler
+     */
+    private ControllerHandler $controllerHandler;
+
+    public function __construct() {
+        $this->controllerHandler = new ControllerHandler();
+    }
+
     /**
      * Page de profil d'un utilisateur
      *
@@ -18,13 +28,10 @@ class UserController
      */
     public function profil(Request $request, $template) {
         // Si l'utilisateur n'est pas connecté on redirige vers la page de connexion
-        if(!isset($_SESSION['user'])) {
-            header("Location:/connexion");
-        }
+        $this->controllerHandler?->redirectToRouteIsNotIsset('user', 'connexion');
 
-        if(isset($_SESSION['modification_ok'])) {
-            unset($_SESSION['modification_ok']);
-        }
+        // Supprimer la variable modification_ok de la session
+        $this->controllerHandler?->unsetSessionVariable('modification_ok');
 
         // Rendu de la page de profil
         echo $template->render('user/profil.html.twig', []);
@@ -39,11 +46,10 @@ class UserController
     public function edit(Request $request, $template) {
 
         // Si l'utilisateur n'est pas connecté on redirige vers la page de connexion
-        if(!isset($_SESSION['user'])) {
-            header("Location:/connexion");
-        }
+        $this->controllerHandler?->redirectToRouteIsNotIsset('user', 'connexion');
 
         $id = $request->query->get('id');
+
         if($id){
             $userManager = new UserManager();
             $user = $userManager->findOneById($id);

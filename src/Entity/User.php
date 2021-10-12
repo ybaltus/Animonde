@@ -12,11 +12,11 @@ class User
     /**
      * Lastname
      */
-    private string $lastName;
+    private string $last_name;
     /**
      * Firstname
      */
-    private string $firstName;
+    private string $first_name;
     /**
      * Email
      */
@@ -32,7 +32,7 @@ class User
     /**
      * ZipCode
      */
-    private string $zipCode;
+    private string $zip_code;
     /**
      * Tel
      */
@@ -55,22 +55,22 @@ class User
 
     public function getLastName(): string
     {
-        return $this->lastName;
+        return $this->last_name;
     }
 
     public function setLastName(string $lastName): void
     {
-        $this->lastName = $lastName;
+        $this->last_name = $lastName;
     }
 
     public function getFirstName(): string
     {
-        return $this->firstName;
+        return $this->first_name;
     }
 
     public function setFirstName(string $firstName): void
     {
-        $this->firstName = $firstName;
+        $this->first_name = $firstName;
     }
 
     public function getEmail(): string
@@ -105,12 +105,12 @@ class User
 
     public function getZipCode(): string
     {
-        return $this->zipCode;
+        return $this->zip_code;
     }
 
     public function setZipCode(string $zipCode): void
     {
-        $this->zipCode = $zipCode;
+        $this->zip_code = $zipCode;
     }
 
     public function getTel(): string

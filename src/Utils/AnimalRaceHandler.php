@@ -3,6 +3,9 @@ namespace App\Utils;
 
 class AnimalRaceHandler
 {
+    /**
+     * Liste des races par default
+     */
     public static array $listRace = [
         ['Chien', 'chien'],
         ['Chat', 'chat']

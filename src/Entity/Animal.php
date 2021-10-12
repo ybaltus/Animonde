@@ -42,9 +42,19 @@ class Animal
     private string $image;
 
     /**
+     * Date de création
+     */
+    private \DateTime|string $created_at;
+
+    /**
+     * Date de mise à jours
+     */
+    private \DateTime|string $updated_at;
+
+    /**
      * Available
      */
-    private bool $available = true;
+    private bool|int $available = true;
 
     public function getId(): int
     {
@@ -119,14 +129,38 @@ class Animal
         $this->image = $image;
     }
 
-    public function getAvailable(): bool
+    public function getAvailable(): bool|int
     {
         return $this->available;
     }
 
-    public function setAvailable($available): void
+    public function setAvailable(bool|int $available): void
     {
-        $this->available = $available;
+        // On utilise match pour configurer la bonne valeur pour la disponibilité
+        $this->available = match($available){
+            2 => 0,
+            default => $available
+        };
+    }
+
+    public function getCreatedAt(): \DateTime|string
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTime|string $created_at): void
+    {
+        $this->created_at = $created_at;
+    }
+
+    public function getUpdatedAt(): \DateTime|string
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(\DateTime|string $updated_at): void
+    {
+        $this->updated_at = $updated_at;
     }
 
     /**

@@ -4,6 +4,7 @@
 namespace App\Controller;
 
 use App\Manager\UserManager;
+use App\Utils\ControllerHandler;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\User;
 use Twig\Environment;
@@ -11,27 +12,31 @@ use Twig\Environment;
 class AuthenticateController
 {
     /**
+     * ControllerHandler
+     */
+    private ControllerHandler $controllerHandler;
+
+    public function __construct() {
+        $this->controllerHandler = new ControllerHandler();
+    }
+
+    /**
      * Page de connexion
      */
-    public function signIn (Request $request, Environment $template): void {
+    public function signIn(Request $request, Environment $template): void
+    {
         // Si l'utilisateur est déjà connecté, on redirige vers la page profil
-        if(isset($_SESSION['user'])){
-            // Redirection vers la page de profil
-            header("Location:/profil");
-        }
+        $this->controllerHandler->redirectToRouteIsIsset('user','profil');
+
+        // Supprimer la variable inscription de la session
+        $this->controllerHandler->unsetSessionVariable('inscription');
+
+        // Supprimer la variable none_user de la session
+        $this->controllerHandler->unsetSessionVariable('none_user');
 
         // Si le formulaire est soumis
-        if ($request->isMethod('POST')) {
-            // Supprimer la variable inscription de la session
-            if(isset($_SESSION['inscription'])){
-                unset($_SESSION['inscription']);
-            }
-
-            // Supprimer la variable none_user de la session
-            if(isset($_SESSION['none_user'])){
-                unset($_SESSION['none_user']);
-            }
-
+        if ($request->isMethod('POST'))
+        {
             // Récupérer l'utilisateur s'il existe en base de données
             $user = new User();
             $manager = new UserManager();
@@ -42,15 +47,15 @@ class AuthenticateController
             if($checkUser) {
                 // Création de la variable user dans la session
                 $_SESSION['user'] = [
-                    'id' => $checkUser->id,
-                    'lastname' => $checkUser->last_name,
-                    'firstname' => $checkUser->first_name,
-                    'email' => $checkUser->email,
-                    'password' => $checkUser->password,
-                    'tel' => $checkUser->tel,
-                    'address' => $checkUser->address,
-                    'zipcode' => $checkUser->zip_code,
-                    'role' => $checkUser->role
+                    'id' => $checkUser->getId(),
+                    'lastname' => $checkUser->getLastName(),
+                    'firstname' => $checkUser->getFirstName(),
+                    'email' => $checkUser->getEmail(),
+                    'password' => $checkUser->getPassword(),
+                    'tel' => $checkUser->getTel(),
+                    'address' => $checkUser->getAddress(),
+                    'zipcode' => $checkUser->getZipCode(),
+                    'role' => $checkUser->getRole()
                 ];
 
                 // Redirection vers la page de profil
@@ -69,20 +74,13 @@ class AuthenticateController
      */
     public function signUp (Request $request, Environment $template): void {
         // Supprimer la variable none_user de la session
-        if(isset($_SESSION['none_user'])){
-            unset($_SESSION['none_user']);
-        }
+        $this->controllerHandler?->unsetSessionVariable('none_user');
 
         // Supprimer la variable suppression de la session
-        if(isset($_SESSION['Suppression_ok'])){
-            unset($_SESSION['Suppression_ok']);
-        }
-
+        $this->controllerHandler?->unsetSessionVariable('Suppression_ok');
 
         // Supprimer la variable inscription de la session
-        if(isset($_SESSION['inscription'])){
-            unset($_SESSION['inscription']);
-        }
+        $this->controllerHandler?->unsetSessionVariable('inscription');
 
         // Si le formulaire est soumis
         if ($request->isMethod('POST')) {
@@ -108,9 +106,8 @@ class AuthenticateController
      */
     public function signOut(Request $request, Environment$template): void {
         // Supprimer la variable user dans la session
-        if(isset($_SESSION['user'])){
-            unset($_SESSION['user']);
-        }
+        $this->controllerHandler->unsetSessionVariable('user');
+
         // Redirection vers la page de connexion
         header("Location:/connexion");
     }

@@ -22,12 +22,12 @@
                         <form id="siginForm" action="/editer-un-utilisateur?id={{ user.id }}" method="POST">
                             <!-- Name input-->
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="last_name" type="text" name="lastName" placeholder="Entrer votre nom..." data-sb-validations="required" value="{{ user.first_name }}" />
+                                <input class="form-control" id="last_name" type="text" name="lastName" placeholder="Entrer votre nom..." data-sb-validations="required" value="{{ user.firstName }}" />
                                 <label for="last_name">Nom</label>
                                 <div class="invalid-feedback" data-sb-feedback="last_name:required">Le nom est obligatoire.</div>
                             </div>
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="first_name" type="text" name="firstName" placeholder="Entrer votre prénom..." data-sb-validations="required" value="{{ user.last_name }}" />
+                                <input class="form-control" id="first_name" type="text" name="firstName" placeholder="Entrer votre prénom..." data-sb-validations="required" value="{{ user.lastName }}" />
                                 <label for="first_name">Prénom</label>
                                 <div class="invalid-feedback" data-sb-feedback="first_name:required">Le prénom est obligatoire.</div>
                             </div>
@@ -59,11 +59,11 @@
                                 <label for="tel">Téléphone</label>
                                 <div class="invalid-feedback" data-sb-feedback="tel:required">Le numéro de téléphone est obligatoire.</div>
                             </div>
-                            <!-- Race de l'animal -->
+                            <!-- Le role de l'utilisateur -->
                             <div class="form-floating mb-3">
                                 <select class="form-control" name="role" required>
-                                        <option value="ROLE_ADMIN">Administrateur </option>
-                                        <option value="ROLE_USER">Utilisateur </option>
+                                        <option value="ROLE_ADMIN" {% if user.role == 'ROLE_ADMIN' %}selected="selected"{% endif %}>Administrateur </option>
+                                        <option value="ROLE_USER" {% if user.role == 'ROLE_USER' %}selected="selected"{% endif %}>Utilisateur </option>
                                 </select>
                             </div>
                             <!-- Submit success message-->

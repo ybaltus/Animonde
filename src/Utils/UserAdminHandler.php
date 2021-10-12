@@ -3,6 +3,9 @@ namespace App\Utils;
 
 class UserAdminHandler
 {
+    /**
+     * Données utilisateur par défault
+     */
     public static array $adminInfo = [
         'last_name' => 'admin',
         'first_name' => 'admin',

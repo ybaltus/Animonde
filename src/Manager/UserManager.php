@@ -8,75 +8,66 @@ use Vendor\database\Manager;
 class UserManager extends Manager implements ManagerInterface
 {
     /**
-     * Find one user by email
-     * @param User $entity
-     * @return mixed
+     * Récupérer un utilisateur avec son email
      */
-    public function findOne($entity)
+    public function findOne(mixed$entity): User|bool
     {
         $statement = "SELECT * FROM user WHERE email = :email AND password = :password LIMIT 1";
-        $prepare = $this->db->prepare($statement);
-        $prepare->bindValue(":email", $entity->getEmail());
-        $prepare->bindValue(":password", $entity->getPassword());
-        $prepare->execute();
-//        $prepare->setFetchMode(\PDO::FETCH_CLASS, User::class);
-//        return $prepare->fetch();
-        return $prepare->fetch(\PDO::FETCH_OBJ);
-    }
-
-    /**
-     * Find one user by id
-     * @param $id
-     * @return mixed
-     */
-    public function findOneById($id)
-    {
-        $statement = "SELECT * FROM user WHERE id = :id LIMIT 1";
-        $prepare = $this->db->prepare($statement);
-        $prepare->bindValue(":id", $id);
-        $prepare->execute();
-//        return $prepare->fetch(\PDO::FETCH_OBJ);
+        $prepare = $this->db?->prepare($statement);
+        $prepare?->bindValue(":email", $entity->getEmail());
+        $prepare?->bindValue(":password", $entity->getPassword());
+        $prepare?->execute();
         $prepare->setFetchMode(\PDO::FETCH_CLASS, User::class);
         return $prepare->fetch();
+//        return $prepare?->fetch(\PDO::FETCH_OBJ);
     }
 
     /**
-     * Get all users
-     * @return array|mixed
+     * Récupérer un utilisateur avec son id
      */
-    public function findAll()
+    public function findOneById(int $id): User|bool
     {
-        $query = $this->db->query("SELECT * FROM user");
-        return $query->fetchAll(\PDO::FETCH_CLASS, "App\Entity\User");
+        $statement = "SELECT * FROM user WHERE id = :id LIMIT 1";
+        $prepare = $this->db?->prepare($statement);
+        $prepare?->bindValue(":id", $id);
+        $prepare?->execute();
+        $prepare?->setFetchMode(\PDO::FETCH_CLASS, User::class);
+        return $prepare?->fetch();
     }
 
     /**
-     * Insert a new user
-     * @param User $entity
+     * Tous les utilisateurs
      */
-    public function add($entity)
+    public function findAll(): array
+    {
+        $query = $this->db?->query("SELECT * FROM user");
+        return $query?->fetchAll(\PDO::FETCH_CLASS, "App\Entity\User");
+    }
+
+    /**
+     * Ajouter un utilisateur
+     */
+    public function add(mixed $entity): void
     {
         $statement = "INSERT INTO user (last_name, first_name, email, password, address, zip_code, tel, role) 
                         VALUES (:lastname, :firstname, :email, :password, :address, :zipcode, :tel, :role)";
 
-        $prepare = $this->db->prepare($statement);
-        $prepare->bindValue(":lastname", $entity->getLastName());
-        $prepare->bindValue(":firstname", $entity->getFirstName());
-        $prepare->bindValue(":email", $entity->getEmail());
-        $prepare->bindValue(":password", $entity->getPassword());
-        $prepare->bindValue(":address", $entity->getAddress());
-        $prepare->bindValue(":zipcode", $entity->getZipCode());
-        $prepare->bindValue(":tel", $entity->getTel());
-        $prepare->bindValue(":role", $entity->getRole());
-        $prepare->execute();
+        $prepare = $this->db?->prepare($statement);
+        $prepare?->bindValue(":lastname", $entity->getLastName());
+        $prepare?->bindValue(":firstname", $entity->getFirstName());
+        $prepare?->bindValue(":email", $entity->getEmail());
+        $prepare?->bindValue(":password", $entity->getPassword());
+        $prepare?->bindValue(":address", $entity->getAddress());
+        $prepare?->bindValue(":zipcode", $entity->getZipCode());
+        $prepare?->bindValue(":tel", $entity->getTel());
+        $prepare?->bindValue(":role", $entity->getRole());
+        $prepare?->execute();
     }
 
     /**
-     * Edit a user by email
-     * @param User $entity
-     * @return mixed|void
+     * Éditer un utilisateur
      */
-    public function edit($entity)
+    public function edit(mixed $entity): void
     {
         $statement = "UPDATE user SET 
                 last_name = :lastname,
@@ -85,29 +76,31 @@ class UserManager extends Manager implements ManagerInterface
                 password = :password,
                 address = :address,
                 zip_code = :zipcode,
-                tel = :tel 
+                tel = :tel,
+                role = :role
                 WHERE id = :id";
         $prepare = $this->db->prepare($statement);
-        $prepare->bindValue(":id", $entity->getId());
-        $prepare->bindValue(":lastname", $entity->getLastName());
-        $prepare->bindValue(":firstname", $entity->getFirstName());
-        $prepare->bindValue(":email", $entity->getEmail());
-        $prepare->bindValue(":password", $entity->getPassword());
-        $prepare->bindValue(":address", $entity->getAddress());
-        $prepare->bindValue(":zipcode", $entity->getZipCode());
-        $prepare->bindValue(":tel", $entity->getTel());
-        $prepare->execute();
+        $prepare?->bindValue(":id", $entity->getId());
+        $prepare?->bindValue(":lastname", $entity->getLastName());
+        $prepare?->bindValue(":firstname", $entity->getFirstName());
+        $prepare?->bindValue(":email", $entity->getEmail());
+        $prepare?->bindValue(":password", $entity->getPassword());
+        $prepare?->bindValue(":address", $entity->getAddress());
+        $prepare?->bindValue(":zipcode", $entity->getZipCode());
+        $prepare?->bindValue(":tel", $entity->getTel());
+        $prepare?->bindValue(":role", $entity->getRole());
+        $prepare?->execute();
     }
 
     /**
-     * Delete a user by id
+     * Supprimer un utilisateur avec l'id
      */
-    public function delete($id)
+    public function delete(mixed $entity): void
     {
         $statement = "DELETE FROM user WHERE id = :id";
-        $prepare = $this->db->prepare($statement);
-        $prepare->bindValue(":id", $id);
-        $prepare->execute();
+        $prepare = $this->db?->prepare($statement);
+        $prepare?->bindValue(":id", $entity);
+        $prepare?->execute();
     }
 
 }

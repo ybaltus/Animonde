@@ -10,73 +10,65 @@ use Vendor\database\Manager;
 class ContactManager extends Manager implements ManagerInterface
 {
     /**
-     * Find one contact by id
-     * @param Contact $entity
-     * @return mixed
+     * Récupérer un contact avec son id
      */
-    public function findOne($entity)
+    public function findOne(mixed $entity): Contact|bool
     {
         $statement = "SELECT * FROM contact WHERE id = :id LIMIT 1";
-        $prepare = $this->db->prepare($statement);
-        $prepare->bindValue(":id", $entity->getId());
-        $prepare->execute();
-        return $prepare->fetch(\PDO::FETCH_CLASS, Contact::class);
+        $prepare = $this->db?->prepare($statement);
+        $prepare?->bindValue(":id", $entity->getId());
+        $prepare?->execute();
+        return $prepare?->fetch(\PDO::FETCH_CLASS, Contact::class);
     }
 
     /**
-     * Get all contacts
-     * @return array|mixed
+     * Récupérer tous les contacts
      */
-    public function findAll()
+    public function findAll(): array
     {
-        $query = $this->db->query("SELECT * FROM contact order by created_at");
-        return $query->fetchAll(\PDO::FETCH_CLASS, Contact::class);
+        $query = $this->db?->query("SELECT * FROM contact order by created_at");
+        return $query?->fetchAll(\PDO::FETCH_CLASS, Contact::class);
     }
 
     /**
-     * Insert a new contact
-     * @param Contact $entity
+     * Ajouter un contact
      */
-    public function add($entity)
+    public function add(mixed $entity): void
     {
         $statement = "INSERT INTO contact (subject, message, user_id, animal_id) 
                         VALUES (:subject, :message, :user, :animal)";
 
-        $prepare = $this->db->prepare($statement);
-        $prepare->bindValue(":subject", $entity->getSubject());
-        $prepare->bindValue(":message", $entity->getMessage());
-        $prepare->bindValue(":user", $entity->getUser());
-        $prepare->bindValue(":animal", $entity->getAnimal());
-        $prepare->execute();
+        $prepare = $this->db?->prepare($statement);
+        $prepare?->bindValue(":subject", $entity->getSubject());
+        $prepare?->bindValue(":message", $entity->getMessage());
+        $prepare?->bindValue(":user", $entity->getUser());
+        $prepare?->bindValue(":animal", $entity->getAnimal());
+        $prepare?->execute();
     }
 
     /**
-     * Edit a contact by id
-     * @param Contact $entity
-     * @return mixed|void
+     * Éditer un contact grâce à l'id
      */
-    public function edit($entity)
+    public function edit(mixed $entity): void
     {
         $statement = "UPDATE contact SET 
                 message = :message
                 WHERE id=:id LIMIT 1";
-        $prepare = $this->db->prepare($statement);
-        $prepare->bindValue(":message", $entity->getMessage());
-        $prepare->bindValue(":id", $entity->getId());
-        $prepare->execute();
+        $prepare = $this->db?->prepare($statement);
+        $prepare?->bindValue(":message", $entity->getMessage());
+        $prepare?->bindValue(":id", $entity->getId());
+        $prepare?->execute();
     }
 
     /**
-     * Delete a contact by id
-     * @param Contact entity
-     * @return mixed|void
+     * Supprimer un contact grâce à l'id
      */
-    public function delete($entity)
+    public function delete($entity): void
     {
         $statement = "DELETE FROM contact WHERE id = :id";
-        $prepare = $this->db->prepare($statement);
-        $prepare->bindValue(":id", $entity->getId());
-        $prepare->execute();
+        $prepare = $this->db?->prepare($statement);
+        $prepare?->bindValue(":id", $entity->getId());
+        $prepare?->execute();
     }
 
 }
