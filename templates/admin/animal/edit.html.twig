@@ -4,6 +4,14 @@
 
 {% block body %}
     <section class="py-5">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/admin" title="Administration">Accueil admin</a></li>
+                    <li class="breadcrumb-item" aria-current="page">Editer un animal</li>
+                </ol>
+            </nav>
+        </div>
         {% if session.animal_exist %}
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
                 {{ session.animal_exist }}

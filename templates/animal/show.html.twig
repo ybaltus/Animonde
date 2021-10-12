@@ -4,6 +4,15 @@
 
 {% block body %}
     <section class="py-5">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/" title="Accueil">Accueil</a></li>
+                    <li class="breadcrumb-item"><a href="/animaux" title="Les animaux">Les animaux</a></li>
+                    <li class="breadcrumb-item" aria-current="page">Voici {{ animal.name }}</li>
+                </ol>
+            </nav>
+        </div>
         <div class="text-center">
             <h1 class="text-center">Voici {{ animal.name }}</h1>
 {#            <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/International_Pok%C3%A9mon_logo.svg/1920px-International_Pok%C3%A9mon_logo.svg.png' style="height: 150px;" class=' img-fluid ' >#}
@@ -40,7 +49,7 @@
                             <i class="bi bi-envelope"></i>
                         </div>
                         <h1 class="fw-bolder">Contactez-nous</h1>
-                        <p class="lead fw-normal text-muted mb-0">Une Question?</p>
+                        <p class="lead fw-normal text-muted mb-0">Une question ? Une réservation ?</p>
                     </div>
                     <form id="contactForm" action="/voir-un-animal?id={{ animal.id }}" method="POST">
                         <!-- Objet du contact -->
@@ -61,6 +70,7 @@
                                 <div class="d-grid">
                                     <button class="btn btn-primary btn-lg disabled" id="submitButton" type="submit">Valider</button>
                                 </div>
+                                <em>Vous devez être connecter pour nous contacter.</em>
                             </div>
                         {% else %}
                             {% include 'partials/button.html.twig' %}

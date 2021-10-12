@@ -4,6 +4,14 @@
 
 {% block body %}
     <section class="py-5">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/admin" title="Administration">Accueil admin</a></li>
+                    <li class="breadcrumb-item" aria-current="page">Ajouter un utilisateur</li>
+                </ol>
+            </nav>
+        </div>
         <div class="container px-5">
             {% if session.Suppression_ok %}
             <div class="alert alert-success alert-dismissible fade show" role="alert">

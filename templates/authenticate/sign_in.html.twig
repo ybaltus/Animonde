@@ -4,6 +4,14 @@
 
 {% block body %}
     <section class="py-5">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/" title="Accueil">Accueil</a></li>
+                    <li class="breadcrumb-item" aria-current="page">Se connecter</li>
+                </ol>
+            </nav>
+        </div>
         <div class="container px-5">
             {% if session.inscription %}
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
